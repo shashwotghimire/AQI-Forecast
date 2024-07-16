@@ -4,6 +4,7 @@
 git clone 
 
 pip install django
+
 pip install django-tailwind
 
 in first terminal window:
