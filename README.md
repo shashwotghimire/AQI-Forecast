@@ -1,5 +1,7 @@
 # AQI-Forecast
 ## usage
+
+git clone 
 pip install django
 pip install django-tailwind
 
