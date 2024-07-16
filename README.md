@@ -3,6 +3,8 @@
 
 git clone 
 
+(optional) create python virtual environment
+
 pip install django
 
 pip install django-tailwind
