@@ -7,7 +7,7 @@
 
 <h2>Date and Time Input Form</h2>
 
-<form method="POST" action="">
+<form method="POST" action="{% url 'submit_datetime' %}">
   {% csrf_token %}
   <label for="date">Choose a date:</label>
   <input type="date" id="date" name="date" required><br><br>

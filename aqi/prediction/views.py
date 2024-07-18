@@ -12,8 +12,7 @@ def load_model():
     return model
 
 def prediction(request):
-
-    return render(request,'prediction\\prediction.html')
+    return render(request, 'prediction\\prediction.html')
 
 def submit_datetime(request):
     if request.method == 'POST':
@@ -22,10 +21,22 @@ def submit_datetime(request):
         
         if date and time:
             date_str = f"{date} {time}:00"  # Combine date and time into the desired format
-            print("Combined DateTime:", date_str)  # For debugging purposes, can be removed
-            # You can now store date_str in your database or use it as needed
+            print("Combined DateTime:", date_str)  # For debugging purposes
             
-            # For demonstration, we return it in the response
-            return HttpResponse(f"Combined DateTime: {date_str}")
+            # Example: Load the model
+            model = load_model()
+            
+            # Example: Preprocess the input data (adjust as per your model requirements)
+            try:
+                input_data = np.array([[datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')]])
+                # Example: Make the prediction (replace this with your actual prediction logic)
+                prediction_result = model.predict(input_data)
+                print("Prediction Result:", prediction_result)  # For debugging purposes
+                
+                # Pass the prediction result to the new template
+                return render(request, 'prediction_result.html', {'prediction': prediction_result, 'date_str': date_str})
+            except Exception as e:
+                print("Error in prediction:", e)  # For debugging purposes
+                return HttpResponse("Error in prediction: {}".format(e))
     
-    return render(request, 'prediction\\prediction_result.html')
+    return HttpResponse("Invalid request method.")
