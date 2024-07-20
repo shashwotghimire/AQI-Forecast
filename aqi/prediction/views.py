@@ -35,7 +35,7 @@ def submit_datetime(request):
                 print("Prediction Result:", prediction_result)  # For debugging purposes
                 
                 # Pass the prediction result to the new template
-                return render(request, 'prediction_result.html', {'prediction': prediction_result, 'date_str': date_str})
+                return render(request, 'prediction\\prediction_result.html', {'prediction': prediction_result, 'date_str': date_str})
             except Exception as e:
                 print("Error in prediction:", e)  # For debugging purposes
                 return HttpResponse("Error in prediction: {}".format(e))
@@ -44,4 +44,4 @@ def submit_datetime(request):
 
 def model_view(request):
     aqi=AirQuality.objects.all()
-    return render(request,'prediction\\prediction_result.html',{'aqi':aqi})
+    return render(request,'prediction\\database_migration.html',{'aqi':aqi})

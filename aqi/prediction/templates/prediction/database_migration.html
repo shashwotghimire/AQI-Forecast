@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+<title>result</title>
+{% endblock %}
+
+{% block content %}
+{% for air_quality in aqi %}
+<div class="aqi-item">
+  <img src="{{ air_quality.image.url }}">
+  <h1>{{ air_quality.name }}</h1>
+  <h1>{{ air_quality.type }}</h1>
+
+</div>
+{% endfor %}
+{% endblock %}
+
