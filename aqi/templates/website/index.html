@@ -3,7 +3,23 @@
 {% block title %}
 <title>homepage</title>
 {% endblock %}
-
 {% block content %}
-<h1  class='bg-orange-300'>welcome</h1>
-{% endblock %}
+<nav class='bg-neutral-100 p-4 text-lg h-16 flex items-center justify-between border-solid border-gray-400 border-2'>
+    <button class='font-extrabold'><h1>Air Quality Index</h1></button>
+    <div class='ml-auto flex space-x-4'>
+        <button>
+            <h1>About</h1>
+        </button>
+        <button>
+            <h1>Predict &#x2122;</h1>
+        </button>
+        <button>
+            <h1>Download</h1>
+        </button>
+        <button>
+            <h1>Feedback</h1>
+        </button>
+    </div>
+</nav>
+<div class='bg-slate-50 '>Kathmandu, Nepal</div>
+{% endblock %} 
