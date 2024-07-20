@@ -4,6 +4,7 @@ from django.conf import settings
 import pickle
 import numpy as np
 from datetime import datetime
+from .models import AirQuality
 
 # Load the model
 def load_model():
@@ -40,3 +41,7 @@ def submit_datetime(request):
                 return HttpResponse("Error in prediction: {}".format(e))
     
     return HttpResponse("Invalid request method.")
+
+def model_view(request):
+    aqi=AirQuality.objects.all()
+    return render(request,'prediction\\prediction_result.html',{'aqi':aqi})

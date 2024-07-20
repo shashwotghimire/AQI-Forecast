@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Prediction Result</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-<h2>Prediction Result</h2>
+{% block title %}
+<title>result</title>
+{% endblock %}
 
-<p>Combined Date and Time: {{ date_str }}</p>
-<p>The predicted AQI is: {{ prediction }}</p>
+{% block content %}
+{% for air_quality in aqi %}
+<div class="aqi-item">
+  <img src="{{ air_quality.image.url }}">
+  <h1>{{ air_quality.name }}</h1>
+  <h1>{{ air_quality.type }}</h1>
 
-<a href="{% url 'prediction' %}">Go back</a>
+</div>
+{% endfor %}
+{% endblock %}
 
-</body>
-</html>
