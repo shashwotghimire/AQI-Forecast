@@ -1,9 +1,206 @@
 {% extends "layout.html" %}
+{% load static %}
 
 {% block title %}
-<title>homepage</title>
+<title>Homepage</title>
 {% endblock %}
 
 {% block content %}
-<h1  class='bg-orange-300'>welcome</h1>
+<body class="bg-teal-100">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <nav class="bg-white shadow-md py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm12-1a1 1 0 00-1 1v10a1 1 0 001 1h2a1 1 0 001-1V5a1 1 0 00-1-1h-2zm-4 1a1 1 0 011-1h2a1 1 0 011 1v10a1 1 0 01-1 1h-2a1 1 0 01-1-1V5zm-6 1a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V6a1 1 0 00-1-1H4zm6 2a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1V8z" clip-rule="evenodd" />
+                </svg>
+                <span class="font-bold text-lg text-black">Air Quality Forecast</span>
+            </div>
+            <div>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="text-gray-700 hover:text-gray-900">Home</a></li>
+                    <li><a href="http://127.0.0.1:8000/prediction" class="text-gray-700 hover:text-gray-900">Forecast</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-gray-900">Realtime</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-gray-900">History</a></li>
+                    <li><a href="http://127.0.0.1:8000/about" class="text-gray-700 hover:text-gray-900">About</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-gray-900">Sign in</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container mx-auto my-8">
+        <!-- Map and Location Info -->
+        <div class="relative">
+            <!-- Increase map height -->
+            <div id="map" class="w-full h-96 rounded-lg shadow-md"></div>
+            <div class="absolute bottom-8 left-8 text-white">
+                <h1 class="text-4xl font-bold">Kathmandu</h1>
+                <p class="text-lg">Nepal</p>
+                <a href="#" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md mt-4 inline-block">Realtime AQI</a>
+            </div>
+        </div>
+
+        <!-- Weather Section -->
+        <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
+            {% if weather %}
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-cloud-sun mr-2 text-yellow-500"></i> Weather Forecast for {{ weather.name }}
+                </h2>
+                <div class="flex items-center mt-4">
+                    <i class="fas fa-temperature-high text-red-500 text-2xl"></i>
+                    <p class="text-lg text-gray-600 ml-2">Temperature: <span class="font-semibold">{{ weather.main.temp }}°C</span></p>
+                </div>
+                <div class="flex items-center mt-2">
+                    <i class="fas fa-cloud text-blue-500 text-2xl"></i>
+                    <p class="text-lg text-gray-600 ml-2">Weather: <span class="font-semibold">{{ weather.weather.0.description }}</span></p>
+                </div>
+                <div class="flex items-center mt-2">
+                    <i class="fas fa-water text-blue-500 text-2xl"></i>
+                    <p class="text-lg text-gray-600 ml-2">Humidity: <span class="font-semibold">{{ weather.main.humidity }}%</span></p>
+                </div>
+                <div class="flex items-center mt-2">
+                    <i class="fas fa-wind text-green-500 text-2xl"></i>
+                    <p class="text-lg text-gray-600 ml-2">Wind Speed: <span class="font-semibold">{{ weather.wind.speed }} m/s</span></p>
+                </div>
+            {% else %}
+                <p class="text-lg text-gray-600">Weather data not available.</p>
+            {% endif %}
+        </div>
+
+        <!-- AQI Section -->
+        <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
+            {% if aqi %}
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-smog mr-2 text-green-500"></i> Real-time AQI for Kathmandu
+                </h2>
+                <div class="flex items-center mt-4">
+                    <i class="fas fa-tachometer-alt text-yellow-500 text-2xl"></i>
+                    <p class="text-lg text-gray-600 ml-2">AQI: <span class="font-semibold">{{ aqi.list.0.main.aqi }}</span></p>
+                </div>
+                <div class="flex items-center mt-2">
+                    <i class="fas fa-cloud text-blue-500 text-2xl"></i>
+                    <p class="text-lg text-gray-600 ml-2">PM2.5: <span class="font-semibold">{{ aqi.list.0.components.pm2_5 }} µg/m³</span></p>
+                </div>
+                <div class="flex items-center mt-2">
+                    <i class="fas fa-cloud-sun text-orange-500 text-2xl"></i>
+                    <p class="text-lg text-gray-600 ml-2">O₃: <span class="font-semibold">{{ aqi.list.0.components.o3 }} µg/m³</span></p>
+                </div>
+            {% else %}
+                <p>AQI data not available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Leaflet Map Script -->
+    <script>
+        var map = L.map('map').setView([27.7172, 85.3240], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Optional: Add a marker to Kathmandu
+        L.marker([27.7172, 85.3240]).addTo(map)
+            .bindPopup('Kathmandu, Nepal')
+            .openPopup();
+    </script>
+
+    <h2 class="text-[#0e191b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Health Tips</h2>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
+                <div class="text-[#0e191b]" data-icon="ShieldCheck" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Wear masks</h2>
+                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">N95 masks are recommended</p>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
+                <div class="text-[#0e191b]" data-icon="ShieldStar" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Avoid outdoor activities</h2>
+                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">Especially for children and the elderly</p>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
+                <div class="text-[#0e191b]" data-icon="ShieldCheck" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Close windows</h2>
+                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">To prevent outdoor air from entering</p>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
+                <div class="text-[#0e191b]" data-icon="ShieldStar" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Use air purifier</h2>
+                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">With HEPA filters</p>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
+                <div class="text-[#0e191b]" data-icon="ShieldCheck" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Keep indoor plants</h2>
+                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">Some plants can help improve indoor air quality</p>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
+                <div class="text-[#0e191b]" data-icon="ShieldStar" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Drink more water</h2>
+                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">To help your body expel toxins</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6 mt-8">
+                <h2 class="text-gray-800 text-2xl font-bold leading-tight tracking-tight px-4 pb-3 pt-5">
+                    About This Site
+                </h2>
+                <p class="text-gray-600 text-lg font-normal leading-relaxed px-4 pb-3 pt-1">
+                    This site provides a daily air quality forecast for Kathmandu, Nepal, as well as real-time data. Air quality data is collected from government monitoring stations and is subject to change. The forecast is based on historical data and meteorological conditions. For more information, please visit our about page.
+                </p>
+            </div>
+            
+
+</body>
 {% endblock %}
