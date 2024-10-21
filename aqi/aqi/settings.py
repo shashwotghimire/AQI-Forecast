@@ -16,7 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MODEL_FILE_PATH = r'C:\Users\xd\Desktop\project\AQI-Forecast\ml_model\ML_model\lstm.pkl'
+MODEL_FILE_PATH = r'C:\Users\Dell\Desktop\AQI project\aqi-forecast\ML_model\knn.pkl'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'prediction',
     'tailwind',
     'theme',
+    'download',
+    'history',
 ]
 TAILWIND_APP_NAME = 'theme' # This is the name of the app that will be used to generate the tailwind files
 INTERNAL_IPS = ['127.0.0.1']

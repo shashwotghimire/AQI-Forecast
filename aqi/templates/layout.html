@@ -11,9 +11,34 @@
     <title>Django def</title>
     {% endblock %}
 </head>
-<body>
-    {% block content %}
-    <p class='bg-orange-900'>default content</p>
-    {% endblock %}
+{% block default %}
+    <body class="bg-teal-100">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+        <nav class="bg-white shadow-md py-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm12-1a1 1 0 00-1 1v10a1 1 0 001 1h2a1 1 0 001-1V5a1 1 0 00-1-1h-2zm-4 1a1 1 0 011-1h2a1 1 0 011 1v10a1 1 0 01-1 1h-2a1 1 0 01-1-1V5zm-6 1a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V6a1 1 0 00-1-1H4zm6 2a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1V8z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="font-bold text-lg text-black">AQI Forecast</span>
+                </div>
+                <div>
+                    <ul class="flex space-x-6">
+                        <li><a href="http://127.0.0.1:8000/" class="text-gray-700 hover:text-gray-900">Home</a></li>
+                        <li><a href="http://127.0.0.1:8000/prediction" class="text-gray-700 hover:text-gray-900">Forecast</a></li>
+                        <li><a href="http://127.0.0.1:8000/download/" class="text-gray-700 hover:text-gray-900">Download</a></li>
+                        <li><a href="#" class="text-gray-700 hover:text-gray-900">History</a></li>
+                        <li><a href="http://127.0.0.1:8000/about" class="text-gray-700 hover:text-gray-900">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+{% endblock %}
+{% block content %}
+        <h1><p>default content</p></h1>
+{% endblock %}
 </body>
 </html>

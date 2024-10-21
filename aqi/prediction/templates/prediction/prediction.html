@@ -1,22 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Date and Time Input Form</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-<h2>Date and Time Input Form</h2>
+{% block content %}
 
-<form method="POST" action="{% url 'submit_datetime' %}">
-  {% csrf_token %}
-  <label for="date">Choose a date:</label>
-  <input type="date" id="date" name="date" required><br><br>
-  
-  <label for="time">Choose a time:</label>
-  <input type="time" id="time" name="time" step="1" required><br><br>
-  
-  <input type="submit" value="Submit">
-</form>
+<body class="bg-teal-100">
+    <div class="container mx-auto my-8">
+        <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Date and Time Input Form</h2>
 
+            <form method="POST" action="{% url 'submit_datetime' %}" class="space-y-4">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="date" class="block text-lg font-medium text-gray-700">Choose a date:</label>
+                    <input type="date" id="date" name="date" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="time" class="block text-lg font-medium text-gray-700">Choose a time:</label>
+                    <input type="time" id="time" name="time" step="1" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <input type="submit" value="Submit" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-6 py-2 rounded-md shadow-md">
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
-</html>
+
+{% endblock %}
