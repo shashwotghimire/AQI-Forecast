@@ -24,9 +24,9 @@ MODEL_FILE_PATH = r'C:\Users\Dell\Desktop\AQI project\aqi-forecast\ML_model\knn.
 SECRET_KEY = 'django-insecure-r%8ww_gu6e^e4drr1)i$i1*)ncgp)y120d@_y@n)y47t0axd8%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['AQI-Forecast.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = []     
 
 
 # Application definition
@@ -127,6 +127,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')         # new
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
