@@ -7,7 +7,8 @@ git clone
 
 pip install django
 
-pip install django-tailwind
+pip install -r requirements.txt
+
 
 in first terminal window:
 python manage.py runserver
