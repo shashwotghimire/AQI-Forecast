@@ -27,12 +27,13 @@
                 </div>
                 <div>
                     <ul class="flex space-x-6">
-                        <li><a href="http://127.0.0.1:8000/" class="text-gray-700 hover:text-gray-900">Home</a></li>
-                        <li><a href="http://127.0.0.1:8000/prediction" class="text-gray-700 hover:text-gray-900">Forecast</a></li>
+                        <li><a href="{% url 'home' %}" class="text-gray-700 hover:text-gray-900">Home</a></li>
+                        <li><a href="{% url 'prediction' %}" class="text-gray-700 hover:text-gray-900">Forecast</a></li>
                         <li><a href="http://127.0.0.1:8000/download/" class="text-gray-700 hover:text-gray-900">Download</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-gray-900">History</a></li>
-                        <li><a href="http://127.0.0.1:8000/about" class="text-gray-700 hover:text-gray-900">About</a></li>
+                        <li><a href="{% url 'history' %}" class="text-gray-700 hover:text-gray-900">History</a></li>
+                        <li><a href="{% url 'about' %}" class="text-gray-700 hover:text-gray-900">About</a></li>
                     </ul>
+                    
                 </div>
             </div>
         </nav>

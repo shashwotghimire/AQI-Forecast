@@ -10,37 +10,12 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    <nav class="bg-white shadow-md py-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm12-1a1 1 0 00-1 1v10a1 1 0 001 1h2a1 1 0 001-1V5a1 1 0 00-1-1h-2zm-4 1a1 1 0 011-1h2a1 1 0 011 1v10a1 1 0 01-1 1h-2a1 1 0 01-1-1V5zm-6 1a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V6a1 1 0 00-1-1H4zm6 2a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1V8z" clip-rule="evenodd" />
-                </svg>
-                <span class="font-bold text-lg text-black">AQI Forecast</span>
-            </div>
-            <div>
-                <ul class="flex space-x-6">
-                    <li><a href="http://127.0.0.1:8000/" class="text-gray-700 hover:text-gray-900">Home</a></li>
-                    <li><a href="http://127.0.0.1:8000/prediction" class="text-gray-700 hover:text-gray-900">Forecast</a></li>
-                    <li><a href="http://127.0.0.1:8000/download/" class="text-gray-700 hover:text-gray-900">Download</a></li>
-                    <li><a href="http://127.0.0.1:8000/history/" class="text-gray-700 hover:text-gray-900">History</a></li>
-                    <li><a href="http://127.0.0.1:8000/about" class="text-gray-700 hover:text-gray-900">About</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <!-- Main content -->
     <div class="container mx-auto my-8">
         <!-- Map and Location Info -->
         <div class="relative">
-            <!-- Increase map height -->
-            <div id="map" class="w-full h-96 rounded-lg shadow-md"></div>
-            <div class="absolute bottom-8 left-8 text-white">
-                <h1 class="text-4xl font-bold">Kathmandu</h1>
-                <p class="text-lg">Nepal</p>
-                <a href="#" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md mt-4 inline-block">Realtime AQI</a>
-            </div>
+            <div id="aqi-map" class="w-full h-96 rounded-lg shadow-md"></div>
         </div>
 
         <!-- Weather Section -->
@@ -94,21 +69,49 @@
         </div>
     </div>
 
-    <!-- Leaflet Map Script -->
+    <!-- AQI Map Script -->
     <script>
-        var map = L.map('map').setView([27.7172, 85.3240], 13);
+        var map = L.map('aqi-map').setView([28.3949, 84.1240], 5);  // Centered on Nepal
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Optional: Add a marker to Kathmandu
-        L.marker([27.7172, 85.3240]).addTo(map)
-            .bindPopup('Kathmandu, Nepal')
-            .openPopup();
-    </script>
+        // Array of locations in Nepal (latitude, longitude)
+        var locations = [
+            { name: "Kathmandu", lat: 27.7172, lon: 85.3240 },
+            { name: "Pokhara", lat: 28.2096, lon: 83.9856 },
+            { name: "Biratnagar", lat: 26.4622, lon: 87.2830 },
+            { name: "Nepalgunj", lat: 28.1001, lon: 81.6543 },
+            { name: "Bhaktapur", lat: 27.6710, lon: 85.4282 }
+            // Add more locations as needed
+        ];
 
+        // Fetch AQI for each location
+        locations.forEach(location => {
+            fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${location.lat}&lon=${location.lon}&appid=601b31f1c2541b300a00720f35e6ed58`)
+                .then(response => response.json())
+                .then(data => {
+                    var aqi = data.list[0].main.aqi;
+                    var pm25 = data.list[0].components.pm2_5;
+                    var o3 = data.list[0].components.o3;
+
+                    var aqiPopup = `
+                        <b>${location.name}, Nepal</b><br>
+                        AQI: ${aqi}<br>
+                        PM2.5: ${pm25} µg/m³<br>
+                        O₃: ${o3} µg/m³
+                    `;
+
+                    L.marker([location.lat, location.lon]).addTo(map)
+                        .bindPopup(aqiPopup);
+                })
+                .catch(error => {
+                    console.error('Error fetching AQI data:', error);
+                });
+        });
+    </script>
     <h2 class="text-[#0e191b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Health Tips</h2>
             <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
               <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
@@ -199,6 +202,4 @@
                 </p>
             </div>
 </body>
-{% endblock %}
-{% block default %}
 {% endblock %}
