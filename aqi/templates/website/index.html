@@ -69,7 +69,8 @@
         </div>
     </div>
 
-    <!-- AQI Map Script -->
+    <div id="aqi-map"></div>
+
     <script>
         var map = L.map('aqi-map').setView([28.3949, 84.1240], 5);  // Centered on Nepal
 
@@ -78,14 +79,14 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Array of locations in Nepal (latitude, longitude)
+        //locations in Nepal (latitude, longitude)
         var locations = [
             { name: "Kathmandu", lat: 27.7172, lon: 85.3240 },
             { name: "Pokhara", lat: 28.2096, lon: 83.9856 },
             { name: "Biratnagar", lat: 26.4622, lon: 87.2830 },
             { name: "Nepalgunj", lat: 28.1001, lon: 81.6543 },
             { name: "Bhaktapur", lat: 27.6710, lon: 85.4282 }
-            // Add more locations as needed
+            // Add more location
         ];
 
         // Fetch AQI for each location

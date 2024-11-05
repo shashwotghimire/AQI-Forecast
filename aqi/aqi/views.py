@@ -2,6 +2,8 @@ from django.shortcuts import render
 import requests
 from django.conf import settings
 
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 # from django.http import HttpResponse
 
@@ -46,7 +48,8 @@ def get_aqi_data():
         return response.json()
     else:
         return None
-
+    
+@login_required
 def home(request):
     weather_data = get_weather_data()
     aqi_data = get_aqi_data()

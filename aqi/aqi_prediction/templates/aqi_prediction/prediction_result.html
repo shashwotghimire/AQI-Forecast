@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>AQI Prediction Results</title>
+{% endblock %}
+{% block content %}
+<body class="bg-teal-100">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="container mx-auto my-8">
+        <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
+            <h1 class="text-2xl font-bold text-gray-800">AQI Prediction Results</h1>
+            <div class="prediction-results mt-6 p-4 border border-gray-300 rounded">
+                <h2 class="text-xl font-semibold">Predictions for {{ prediction_datetime }}</h2>
+                <p class="mt-2">Predicted PM2.5: <span class="font-medium">{{ pm25_prediction }}</span> μg/m³</p>
+                <p class="mt-2">Predicted O3: <span class="font-medium">{{ o3_prediction }}</span> ppb</p>
+            </div>
+            <div class="mt-6">
+                <h2 class="text-xl font-semibold">7-Day AQI Forecast</h2>
+                <canvas id="aqiForecastChart"></canvas>
+            </div>
+            <a href="{% url 'predict_aqi' %}" class="mt-6 inline-block bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md">
+                <i class="fas fa-arrow-left mr-2"></i> Make Another Prediction
+            </a>
+        </div>
+    </div>
+    <script>
+        const aqiForecastChart = document.getElementById('aqiForecastChart').getContext('2d');
+        const aqiForecastData = {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day  7'],
+            datasets: [{
+                label: 'AQI Forecast',
+                data: [{{ aqi_day1 }}, {{ aqi_day2 }}, {{ aqi_day3 }}, {{ aqi_day4 }}, {{ aqi_day5 }}, {{ aqi_day6 }}, {{ aqi_day7 }}],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const aqiForecastConfig = {
+            type: 'line',
+            data: aqiForecastData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'AQI'
+                        }
+                    }
+                }
+            }
+        };
+
+        const aqiForecastChartInstance = new Chart(aqiForecastChart, aqiForecastConfig);
+    </script>
+</body>
+{% endblock %}

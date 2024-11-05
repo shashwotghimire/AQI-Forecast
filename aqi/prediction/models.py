@@ -1,22 +1,12 @@
 from django.db import models
-from django.utils import timezone
-
-# Create your models here.
 
 class AirQuality(models.Model):
-  CHAI_TYPE_CHOICES = [
-    ('G', 'GOOD'),
-    ('S', 'SATISFACTORY'),
-    ('MO', 'MODERATE'),
-    ('P', 'POOR'),
-    ('VP', 'VERYPOOR'),
-    ('SE', 'SEVERE'),
-  ]
+    timestamp = models.DateTimeField(auto_now_add=True)  # This automatically sets the timestamp
+    pm25 = models.FloatField(default=0)  # Default to 0 if not specified
+    o3 = models.FloatField(default=0)  # Default to 0 if not specified
 
-  name = models.CharField(max_length=100)
-  image = models.ImageField(upload_to='airquality/')
-  date_added = models.DateTimeField(default=timezone.now)
-  type = models.CharField(max_length=2, choices=CHAI_TYPE_CHOICES, default='MO')
+    class Meta:
+        ordering = ['timestamp']
 
-  def __str__(self):
-    return self.name
+    def __str__(self):
+        return f"AQI Reading at {self.timestamp}"

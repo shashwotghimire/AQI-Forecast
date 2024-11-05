@@ -38,11 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'prediction',
+    # 'prediction',
     'tailwind',
     'theme',
     'download',
     'history',
+    'login',
+    'aqi_prediction',
+    'widget_tweaks',
+
 ]
 TAILWIND_APP_NAME = 'theme' # This is the name of the app that will be used to generate the tailwind files
 INTERNAL_IPS = ['127.0.0.1']
@@ -115,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 
 USE_I18N = True
 

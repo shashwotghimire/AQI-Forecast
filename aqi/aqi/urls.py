@@ -24,7 +24,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
-    path('prediction/', include('prediction.urls')),
+    # path('prediction/', include('prediction.urls')),
     path('download/', include('download.urls')),
     path('history/', include('history.urls')),
+    path('login/', include('login.urls')),
+    path('aqi_prediction/', include('aqi_prediction.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
