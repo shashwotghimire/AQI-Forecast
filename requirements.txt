@@ -14,7 +14,6 @@ gunicorn==23.0.0
 h5py==3.11.0
 idna==3.7
 joblib==1.4.2
-keras==3.4.1
 libclang==18.1.1
 Markdown==3.6
 markdown-it-py==3.0.0
