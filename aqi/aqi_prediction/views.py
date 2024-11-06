@@ -7,9 +7,9 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.svm import SVR
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import LSTM, Dense, Dropout
-# from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
 
 def prepare_features(df):
@@ -47,50 +47,46 @@ def train_model(model_type):
     scaler_y = MinMaxScaler()
     
     if model_type == 'lstm':
-        # Commenting out the LSTM-related code
-        # X = df[lstm_features].values
-        # y = np.stack([df['pm25'].values, df['o3'].values], axis=1)
+        X = df[lstm_features].values
+        y = np.stack([df['pm25'].values, df['o3'].values], axis=1)
         
-        # # Scale features and targets
-        # X_scaled = scaler_X.fit_transform(X)
-        # y_scaled = scaler_y.fit_transform(y)
+        # Scale features and targets
+        X_scaled = scaler_X.fit_transform(X)
+        y_scaled = scaler_y.fit_transform(y)
         
-        # # Create sequences for LSTM
-        # sequence_length = 24  # Use last 24 hours of data
-        # X_seq, y_seq = create_sequences(X_scaled, y_scaled, sequence_length)
+        # Create sequences for LSTM
+        sequence_length = 24  # Use last 24 hours of data
+        X_seq, y_seq = create_sequences(X_scaled, y_scaled, sequence_length)
         
-        # # Build improved LSTM model
-        # model = Sequential([
-        #     LSTM(128, input_shape=(sequence_length, len(lstm_features)), return_sequences=True),
-        #     Dropout(0.2),
-        #     LSTM(64),
-        #     Dropout(0.2),
-        #     Dense(32, activation='relu'),
-        #     Dense(2)
-        # ])
+        # Build improved LSTM model
+        model = Sequential([
+            LSTM(128, input_shape=(sequence_length, len(lstm_features)), return_sequences=True),
+            Dropout(0.2),
+            LSTM(64),
+            Dropout(0.2),
+            Dense(32, activation='relu'),
+            Dense(2)
+        ])
         
-        # model.compile(optimizer='adam', loss='mse')
+        model.compile(optimizer='adam', loss='mse')
         
-        # # Add early stopping
-        # early_stopping = EarlyStopping(
-        #     monitor='loss',
-        #     patience=5,
-        #     restore_best_weights=True
-        # )
+        # Add early stopping
+        early_stopping = EarlyStopping(
+            monitor='loss',
+            patience=5,
+            restore_best_weights=True
+        )
         
-        # # Train model
-        # model.fit(
-        #     X_seq, y_seq,
-        #     epochs=50,
-        #     batch_size=32,
-        #     callbacks=[early_stopping],
-        #     verbose=1
-        # )
+        # Train model
+        model.fit(
+            X_seq, y_seq,
+            epochs=50,
+            batch_size=32,
+            callbacks=[early_stopping],
+            verbose=1
+        )
         
-        # return (model, (scaler_X, scaler_y), sequence_length), lstm_features
-        
-        # Placeholder for model return if needed
-        return None, lstm_features
+        return (model, (scaler_X, scaler_y), sequence_length), lstm_features
         
     else:
         X = df[base_features]
@@ -146,28 +142,23 @@ def predict_aqi(request):
         pred_df = prepare_features(pred_df)
 
         if model_type == 'lstm':
-            # Commented out LSTM-related prediction code
-            # result, features = train_model(model_type)
-            # model, (scaler_X, scaler_y), sequence_length = result
+            result, features = train_model(model_type)
+            model, (scaler_X, scaler_y), sequence_length = result
             
-            # # Get the last sequence_length records from the database
-            # recent_data = AQIData.objects.all().order_by('-datetime')[:sequence_length]
-            # recent_df = pd.DataFrame(list(recent_data.values()))
-            # recent_df = prepare_features(recent_df)
+            # Get the last sequence_length records from the database
+            recent_data = AQIData.objects.all().order_by('-datetime')[:sequence_length]
+            recent_df = pd.DataFrame(list(recent_data.values()))
+            recent_df = prepare_features(recent_df)
             
-            # # Prepare sequence for prediction
-            # X = recent_df[features].values
-            # X_scaled = scaler_X.transform(X)
-            # X_seq = X_scaled.reshape(1, sequence_length, len(features))
+            # Prepare sequence for prediction
+            X = recent_df[features].values
+            X_scaled = scaler_X.transform(X)
+            X_seq = X_scaled.reshape(1, sequence_length, len(features))
             
-            # # Make prediction and inverse transform
-            # prediction_scaled = model.predict(X_seq)
-            # prediction = scaler_y.inverse_transform(prediction_scaled)
-            # pm25_pred, o3_pred = prediction[0]
-            
-            # Placeholder for LSTM predictions
-            pm25_pred = 0
-            o3_pred = 0
+            # Make prediction and inverse transform
+            prediction_scaled = model.predict(X_seq)
+            prediction = scaler_y.inverse_transform(prediction_scaled)
+            pm25_pred, o3_pred = prediction[0]
             
         else:
             models, scaler, features = train_model(model_type)
