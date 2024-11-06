@@ -24,9 +24,9 @@ MODEL_FILE_PATH = r'C:\Users\Dell\Desktop\AQI project\aqi-forecast\ML_model\knn.
 SECRET_KEY = 'django-insecure-r%8ww_gu6e^e4drr1)i$i1*)ncgp)y120d@_y@n)y47t0axd8%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True       #(deploy)
+DEBUG = False       #(deploy)
 
-ALLOWED_HOSTS = []  #(deploy)
+ALLOWED_HOSTS = ['*']  #(deploy)
 
 
 # Application definition
