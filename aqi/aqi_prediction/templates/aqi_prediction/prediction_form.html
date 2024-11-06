@@ -9,14 +9,22 @@
     <div class="container mx-auto my-8">
         <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
             <h1 class="text-2xl font-bold text-gray-800 flex items-center">
-                <i class="fas fa-chart-line mr-2 text-blue-500"></i> AQI Prediction
+                <i class="fas fa-chart-line mr-2 text-blue-500"></i> AQI Forecast
             </h1>
             
             <form method="post" class="mb-8">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <div class="mb-4">
+                    {{ form.prediction_datetime.label_tag }}
+                    {{ form.prediction_datetime }}
+                </div>
+                <div class="mb-4">
+                    {{ form.model.label_tag }}
+                    {{ form.model }}
+                </div>
+                
                 <button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md inline-block mt-4">
-                    <i class="fas fa-predictive-text mr-2"></i> Get Prediction
+                    <i class="fas fa-predictive-text mr-2"></i> Forecast
                 </button>
             </form>
 

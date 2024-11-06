@@ -1,30 +1,49 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">AQI Prediction</h1>
-    
-    <form method="post" class="mb-8">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
-            Get Prediction
-        </button>
-    </form>
+<div class="relative flex flex-col min-h-screen bg-[#f8fbfb] group/design-root">
+    <div class="container mx-auto px-4 py-8 flex-grow">
+        <h1 class="text-[#0e171b] text-3xl font-bold mb-6">AQI Prediction</h1>
+        
+        <div class="bg-[#f0f8f8] shadow-md rounded p-6 mb-8">  <!-- Form background -->
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    {{ form.field1.label(class="block mb-1 text-[#0e171b] font-semibold") }}  <!-- Replace 'field1' with the actual field name -->
+                    {{ form.field1(class="border border-[#4f8e96] rounded p-2 w-full focus:outline-none focus:ring focus:ring-[#4f8e96]") }}  <!-- Add classes for styling -->
+                </div>
+                <div class="mb-6 mt-4">  <!-- Add margin top to create space between fields -->
+                    {{ form.field2.label(class="block mb-1 text-[#0e171b] font-semibold") }}  <!-- Replace 'field2' with the actual field name -->
+                    {{ form.field2(class="border border-[#4f8e96] rounded p-2 w-full focus:outline-none focus:ring focus:ring-[#4f8e96]") }}  <!-- Add classes for styling -->
+                </div>
+                <button type="submit" class="bg-[#4f8e96] text-white px-4 py-2 rounded hover:bg-[#3a7a81] transition duration-300">
+                    Get Prediction
+                </button>
+            </form>
+        </div>
 
-    {% if predictions %}
-    <div class="bg-white shadow rounded p-6">
-        <h2 class="text-xl font-semibold mb-4">Predicted AQI Values:</h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="border p-4 rounded">
-                <h3 class="font-medium">PM2.5</h3>
-                <p class="text-2xl">{{ predictions.pm25 }}</p>
-            </div>
-            <div class="border p-4 rounded">
-                <h3 class="font-medium">O3</h3>
-                <p class="text-2xl">{{ predictions.o3 }}</p>
+        {% if predictions %}
+        <div class="bg-white shadow-md rounded p-6">
+            <h2 class="text-[#0e171b] text-2xl font-semibold mb-4">Predicted AQI Values:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="border border-[#4f8e96] p-4 rounded bg-[#f0f8f8]">
+                    <h3 class="font-medium text-[#0e191b]">PM2.5</h3>
+                    <p class="text-3xl font-extrabold text-[#4f8e96]">{{ predictions.pm25 }}</p>
+                </div>
+                <div class="border border-[#4f8e96] p-4 rounded bg-[#f0f8f8]">
+                    <h3 class="font-medium text-[#0e191b]">O₃</h3>
+                    <p class="text-3xl font-extrabold text-[#4f8e96]">{{ predictions.o3 }}</p>
+                </div>
             </div>
         </div>
+        {% endif %}
     </div>
-    {% endif %}
+
+    <footer class="flex justify-center py-5">
+        <div class="flex max-w-[960px] flex-1 flex-col">
+            <footer class="flex flex-col gap-6 px-5 py-10 text-center">
+                <p class="text-[#4f8296] text-base font-normal leading-normal">© 2023 AirSense. All rights reserved</p>
+            </footer>
+        </div>
+    </footer>
 </div>
 {% endblock %}

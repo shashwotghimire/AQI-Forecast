@@ -1,9 +1,102 @@
-{% extends "layout.html" %}
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
 
-{% block title %}
-<title>about</title>
-{% endblock %}
-{% block content %}
-    <p>this is about page</p>
-{% endblock %}
+    <title>Galileo Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfb] group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f0f3] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#0e171b]">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path></svg>
+            </div>
+            <h2 class="text-[#0e171b] text-lg font-bold leading-tight tracking-[-0.015em]">AirSense</h2>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a class="text-[#0e171b] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#0e171b] text-sm font-medium leading-normal" href="#">Dashboard</a>
+              <a class="text-[#0e171b] text-sm font-medium leading-normal" href="#">Forecast</a>
+              <a class="text-[#0e171b] text-sm font-medium leading-normal" href="#">About</a>
+            </div>
+            <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e8f0f3] text-[#0e171b] text-sm font-bold leading-normal tracking-[0.015em]"
+            >
+              <span class="truncate">Log in</span>
+            </button>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#0e171b] tracking-light text-[32px] font-bold leading-tight min-w-72">Our mission</p></div>
+            <p class="text-[#0e171b] text-base font-normal leading-normal pb-3 pt-1 px-4">
+              At AirSense, we're on a mission to provide the most accurate and reliable air quality forecasts. We believe that everyone has the right to breathe clean air, and our
+              goal is to empower people with the information they need to make healthier choices. Our team of data scientists, environmental engineers, and software developers is
+              dedicated to delivering real-time, hyperlocal air quality insights that help you live your best life.
+            </p>
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#0e171b] tracking-light text-[32px] font-bold leading-tight min-w-72">Why we do it</p></div>
+            <p class="text-[#0e171b] text-base font-normal leading-normal pb-3 pt-1 px-4">
+              Air pollution is one of the biggest environmental health risks we face today. It's linked to a wide range of health problems, from asthma and heart disease to cancer
+              and cognitive decline. Unfortunately, many people are unaware of the air quality challenges in their area, which makes it difficult to protect themselves and their
+              loved ones. We're passionate about solving this problem by providing easy-to-understand, actionable air quality forecasts to help people make informed decisions about
+              their daily activities.
+            </p>
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-[#0e171b] tracking-light text-[32px] font-bold leading-tight min-w-72">The science behind our forecasts</p>
+            </div>
+            <p class="text-[#0e171b] text-base font-normal leading-normal pb-3 pt-1 px-4">
+              We use a combination of cutting-edge machine learning algorithms, weather models, and air quality sensor data to generate our forecasts. Our proprietary technology
+              analyzes historical air quality patterns, current meteorological conditions, and other relevant factors to predict future air quality levels with high accuracy. We
+              continuously validate and improve our models based on the latest scientific research and feedback from our users, ensuring that our forecasts reflect the most
+              up-to-date understanding of air pollution dynamics.
+            </p>
+            <div class="@container">
+              <div class="flex flex-col gap-6 px-4 py-10 @[480px]:gap-8 @[864px]:flex-row">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl @[480px]:h-auto @[480px]:min-w-[400px] @[864px]:w-full"
+                  style='background-image: url("https://cdn.usegalileo.ai/stability/54aeae94-aaab-4b00-8fbf-b436f3238f93.png");'
+                ></div>
+                <div class="flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center">
+                  <div class="flex flex-col gap-2 text-left">
+                    <h1
+                      class="text-[#0e171b] text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]"
+                    >
+                      Meet the team
+                    </h1>
+                    <h2 class="text-[#0e171b] text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+                      Our multidisciplinary team brings together expertise in data science, environmental engineering, and software development to deliver the best air quality
+                      forecasts. We're passionate about using technology to promote public health and environmental sustainability.
+                    </h2>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#1890bf] text-[#f8fbfb] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]"
+                  >
+                    <span class="truncate">Explore careers</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="flex justify-center">
+          <div class="flex max-w-[960px] flex-1 flex-col">
+            <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+              <p class="text-[#4f8296] text-base font-normal leading-normal">© 2023 AirSense. All rights reserved</p>
+            </footer>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

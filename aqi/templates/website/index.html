@@ -4,72 +4,92 @@
 {% block title %}
 <title>Homepage</title>
 {% endblock %}
+
 {% block content %}
 <body class="bg-teal-100">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-
     <!-- Main content -->
     <div class="container mx-auto my-8">
-        <!-- Map and Location Info -->
+        <!-- Map Section -->
         <div class="relative">
             <div id="aqi-map" class="w-full h-96 rounded-lg shadow-md"></div>
         </div>
 
-        <!-- Weather Section -->
-        <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
-            {% if weather %}
-                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                    <i class="fas fa-cloud-sun mr-2 text-yellow-500"></i> Weather Forecast for {{ weather.name }}
-                </h2>
-                <div class="flex items-center mt-4">
-                    <i class="fas fa-temperature-high text-red-500 text-2xl"></i>
-                    <p class="text-lg text-gray-600 ml-2">Temperature: <span class="font-semibold">{{ weather.main.temp }}°C</span></p>
-                </div>
-                <div class="flex items-center mt-2">
-                    <i class="fas fa-cloud text-blue-500 text-2xl"></i>
-                    <p class="text-lg text-gray-600 ml-2">Weather: <span class="font-semibold">{{ weather.weather.0.description }}</span></p>
-                </div>
-                <div class="flex items-center mt-2">
-                    <i class="fas fa-water text-blue-500 text-2xl"></i>
-                    <p class="text-lg text-gray-600 ml-2">Humidity: <span class="font-semibold">{{ weather.main.humidity }}%</span></p>
-                </div>
-                <div class="flex items-center mt-2">
-                    <i class="fas fa-wind text-green-500 text-2xl"></i>
-                    <p class="text-lg text-gray-600 ml-2">Wind Speed: <span class="font-semibold">{{ weather.wind.speed }} m/s</span></p>
-                </div>
-            {% else %}
-                <p class="text-lg text-gray-600">Weather data not available.</p>
-            {% endif %}
-        </div>
+<!-- Weather Section -->
+<h2 class="text-[#0e191b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Weather Forecast</h2>
+<div class="p-4">
+    {% if weather %}
+        <ul class="list-disc pl-5 space-y-4">
+            <li class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 1 0 10 10A10.012 10.012 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/>
+                    <path d="M12 6a6 6 0 0 0-6 6h2a4 4 0 1 1 4-4z"/>
+                </svg>
+                <span class="text-[#0e191b] font-bold">Temperature:</span>
+                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.main.temp }}°C</span>
+            </li>
+            <li class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 4a8 8 0 0 0 8 8 8.009 8.009 0 0 0-8-8zm1 13H11v-2h2zm0-4H11V7h2z"/>
+                </svg>
+                <span class="text-[#0e191b] font-bold">Weather:</span>
+                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.weather.0.description }}</span>
+            </li>
+            <li class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                </svg>
+                <span class="text-[#0e191b] font-bold">Humidity:</span>
+                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.main.humidity }}%</span>
+            </li>
+            <li class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                </svg>
+                <span class="text-[#0e191b] font-bold">Wind Speed:</span>
+                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.wind.speed }} m/s</span>
+            </li>
+        </ul>
+    {% else %}
+        <p class="text-[#4f8e96] text-sm font-normal leading-normal">Weather data not available.</p>
+    {% endif %}
+</div>
 
-        <!-- AQI Section -->
-        <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
-            {% if aqi %}
-                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                    <i class="fas fa-smog mr-2 text-green-500"></i> Real-time AQI for Kathmandu
-                </h2>
-                <div class="flex items-center mt-4">
-                    <i class="fas fa-tachometer-alt text-yellow-500 text-2xl"></i>
-                    <p class="text-lg text-gray-600 ml-2">AQI: <span class="font-semibold">{{ aqi.list.0.main.aqi }}</span></p>
-                </div>
-                <div class="flex items-center mt-2">
-                    <i class="fas fa-cloud text-blue-500 text-2xl"></i>
-                    <p class="text-lg text-gray-600 ml-2">PM2.5: <span class="font-semibold">{{ aqi.list.0.components.pm2_5 }} µg/m³</span></p>
-                </div>
-                <div class="flex items-center mt-2">
-                    <i class="fas fa-cloud-sun text-orange-500 text-2xl"></i>
-                    <p class="text-lg text-gray-600 ml-2">O₃: <span class="font-semibold">{{ aqi.list.0.components.o3 }} µg/m³</span></p>
-                </div>
-            {% else %}
-                <p>AQI data not available.</p>
-            {% endif %}
-        </div>
-    </div>
+<!-- AQI Section -->
+<h2 class="text-[#0e191b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Real-time AQI</h2>
+<div class="p-4">
+    {% if aqi %}
+        <ul class="list-disc pl-5 space-y-4">
+            <li class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                </svg>
+                <span class="text-[#0e191b] font-bold">AQI:</span>
+                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.main.aqi }}</span>
+            </li>
+            <li class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                </svg>
+                <span class="text-[#0e191b] font-bold">PM2.5:</span>
+                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.components.pm2_5 }} µg/m³</span>
+            </li>
+            <li class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                </svg>
+                <span class="text-[#0e191b] font-bold">O₃:</span>
+                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.components.o3 }} µg/m³</span>
+            </li>
+        </ul>
+    {% else %}
+        <p class="text-[#4f8e96] text-sm font-normal leading-normal">AQI data not available.</p>
+    {% endif %}
+</div>
 
-    <div id="aqi-map"></div>
+   <div id="aqi-map"></div>
 
     <script>
         var map = L.map('aqi-map').setView([28.3949, 84.1240], 5);  // Centered on Nepal
