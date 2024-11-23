@@ -1,6 +1,6 @@
 from django.shortcuts import render
+from aqi_prediction.models import AQIPrediction
 
-# Create your views here.
-
-def history(request):
-    return render(request,'history\\history.html')
+def history_view(request):
+    predictions = AQIPrediction.objects.all().order_by('-prediction_datetime')
+    return render(request, 'history/history.html', {'predictions': predictions})

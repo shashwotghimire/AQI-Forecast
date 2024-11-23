@@ -16,7 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MODEL_FILE_PATH = r'C:\Users\Dell\Desktop\AQI project\aqi-forecast\ML_model\knn.pkl'
+MODEL_FILE_PATH = r'C:\Users\Asus\OneDrive\Desktop\mlpython\ML_model'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 

@@ -26,9 +26,9 @@
     <div>
         <ul class="flex space-x-6">
             <li><a href="{% url 'home' %}" class="text-[#0e171b] hover:text-[#e8f0f3] transition duration-300 ease-in-out">Home</a></li>
-            <li><a href="http://127.0.0.1:8000/aqi_prediction/predict/" class="text-[#0e171b] hover:text-[#e8f0f3] transition duration-300 ease-in-out">Forecast</a></li>
-            <li><a href="http://127.0.0.1:8000/download" class="text-[#0e171b] hover:text-[#e8f0f3] transition duration-300 ease-in-out">Download</a></li>
-            <li><a href="{% url 'history' %}" class="text-[#0e171b] hover:text-[#e8f0f3] transition duration-300 ease-in-out">History</a></li>
+            <li><a href="{% url 'aqi_prediction:predict' %}" class="text-[#0e171b] hover:text-[#e8f0f3] transition duration-300 ease-in-out">Forecast</a></li>
+            <li><a href="{% url 'download:download_page' %}" class="text-[#0e171b] hover:text-[#e8f0f3] transition duration-300 ease-in-out">Download</a></li>
+            <li><a href="{% url 'history:history' %}" class="text-[#0e171b] hover:text-[#e8f0f3] transition duration-300 ease-in-out">History</a></li>
             <li><a href="{% url 'about' %}" class="text-[#0e171b] hover:text-[#e8f0f3] transition duration-300 ease-in-out">About</a></li>
         </ul>
     </div>

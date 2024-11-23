@@ -5,30 +5,138 @@
 {% endblock %}
 
 {% block content %}
-<body class="bg-teal-100">
-    <div class="container mx-auto my-8">
-        <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
-            <h1 class="text-2xl font-bold text-gray-800">AQI Prediction Results</h1>
-            
-            <div class="prediction-results mt-6 p-4 border border-gray-300 rounded">
-                <h2 class="text-xl font-semibold">Predictions for {{ prediction_datetime }}</h2>
-                <p class="mt-2">Predicted PM2.5: <span class="font-medium">{{ pm25_prediction }}</span> μg/m³</p>
-                <p class="mt-2">Predicted O3: <span class="font-medium">{{ o3_prediction }}</span> ppb</p>
-                <p class="mt-2">Overall AQI: <span class="font-medium">{{ overall_aqi }}</span></p>
-                <p class="mt-2">AQI Category: <span class="font-semibold text-teal-600">{{ aqi_category }}</span></p>
-                <p class="mt-2">Model Used: <span class="font-medium">{{ model_type }}</span></p>
+<div class="container mx-auto my-8">
+    <div class="mt-8 p-6 bg-white rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold text-gray-800">AQI Prediction Results</h1>
+        
+        <!-- AQI Meter -->
+        <div class="aqi-meter mt-6">
+            <div class="relative h-8 rounded-full overflow-hidden bg-gray-200">
+                <div class="absolute top-0 left-0 h-full w-full" 
+                     style="background: linear-gradient(to right, 
+                        #22c55e 0%, 
+                        #22c55e 16.67%, 
+                        #facc15 16.67%, 
+                        #facc15 33.33%, 
+                        #fb923c 33.33%, 
+                        #fb923c 50%, 
+                        #ef4444 50%, 
+                        #ef4444 66.67%, 
+                        #9333ea 66.67%, 
+                        #9333ea 83.33%, 
+                        #7f1d1d 83.33%, 
+                        #7f1d1d 100%
+                     );">
+                </div>
+                <div id="aqiPointer" class="absolute top-0 h-full w-2 bg-white border-2 border-gray-800 transform -translate-x-1/2" style="left: 0%;">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-2 py-1 rounded text-sm whitespace-nowrap">
+                        {{ overall_aqi }}
+                    </div>
+                </div>
             </div>
-
-            <div class="health-advice mt-6 p-4 bg-blue-100 border-l-4 border-blue-500 rounded">
-                <h3 class="text-lg font-semibold text-blue-800">Health Advice</h3>
-                <p class="mt-2"><strong>Message:</strong> {{ health_message }}</p>
-                <p class="mt-2"><strong>Tip:</strong> {{ health_tip }}</p>
+            <div class="flex justify-between text-sm mt-2">
+                <span class="text-green-500">Good<br>(0-50)</span>
+                <span class="text-yellow-400">Moderate<br>(51-100)</span>
+                <span class="text-orange-400">Unhealthy for Sensitive<br>(101-150)</span>
+                <span class="text-red-500">Unhealthy<br>(151-200)</span>
+                <span class="text-purple-600">Very Unhealthy<br>(201-300)</span>
+                <span class="text-red-900">Hazardous<br>(301+)</span>
             </div>
+        </div>
 
-            <a href="{% url 'predict_aqi' %}" class="mt-6 inline-block bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md">
-                <i class="fas fa-arrow-left mr-2"></i> Make Another Prediction
-            </a>
+        
+        <!-- Rest of your content -->
+        <div class="prediction-results mt-6 p-4 border border-gray-300 rounded">
+            <h2 class="text-xl font-semibold">Predictions for {{ prediction_datetime }}</h2>
+            <p class="mt-2">Predicted PM2.5: <span class="font-medium">{{ pm25_prediction }}</span> μg/m³</p>
+            <p class="mt-2">Predicted O3: <span class="font-medium">{{ o3_prediction }}</span> ppb</p>
+            <p class="mt-2">Overall AQI: <span class="font-medium">{{ overall_aqi }}</span></p>
+            <p class="mt-2">AQI Category: <span class="font-semibold text-teal-600">{{ aqi_category }}</span></p>
+            <p class="mt-2">Model Used: <span class="font-medium">{{ model_type }}</span></p>
+        </div>
+
+        <!-- Health Tips Section -->
+        <div class="health-tips mt-6 p-4 bg-blue-50 border border-blue-200 rounded">
+            <h2 class="text-xl font-semibold text-blue-800 mb-3">
+                <i class="fas fa-heartbeat mr-2"></i>Health Recommendations
+            </h2>
+            <div class="text-gray-700">
+                {% if overall_aqi <= 50 %}
+                    <p class="mb-2"><strong class="text-green-600">Air quality is good!</strong></p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Perfect for outdoor activities</li>
+                        <li>Great time for exercise and sports</li>
+                        <li>Enjoy the fresh air!</li>
+                    </ul>
+                {% elif overall_aqi <= 100 %}
+                    <p class="mb-2"><strong class="text-yellow-600">Air quality is moderate.</strong></p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Unusually sensitive people should consider reducing prolonged outdoor exertion</li>
+                        <li>Most people can continue normal activities</li>
+                        <li>Watch for any unusual symptoms like coughing or shortness of breath</li>
+                    </ul>
+                {% elif overall_aqi <= 150 %}
+                    <p class="mb-2"><strong class="text-orange-600">Unhealthy for Sensitive Groups</strong></p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>People with respiratory or heart conditions should limit outdoor exposure</li>
+                        <li>Children and elderly should reduce prolonged or heavy exertion</li>
+                        <li>Consider indoor activities instead</li>
+                    </ul>
+                {% elif overall_aqi <= 200 %}
+                    <p class="mb-2"><strong class="text-red-600">Unhealthy conditions!</strong></p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Everyone should reduce prolonged outdoor exertion</li>
+                        <li>Move activities indoors or reschedule</li>
+                        <li>Wear a mask if outdoor activities are unavoidable</li>
+                        <li>Keep windows closed</li>
+                    </ul>
+                {% elif overall_aqi <= 300 %}
+                    <p class="mb-2"><strong class="text-purple-600">Very Unhealthy - Health Alert!</strong></p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Avoid all outdoor physical activities</li>
+                        <li>Run air purifiers if available</li>
+                        <li>Stay indoors as much as possible</li>
+                        <li>Wear N95 masks if going outside is necessary</li>
+                    </ul>
+                {% else %}
+                    <p class="mb-2"><strong class="text-red-900">Hazardous Conditions!</strong></p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>EMERGENCY CONDITIONS - Health warnings of emergency conditions</li>
+                        <li>Stay indoors and keep activity levels low</li>
+                        <li>Close all windows and doors</li>
+                        <li>Use air purifiers if available</li>
+                        <li>Wear N95 masks if you must go outside</li>
+                        <li>Follow local emergency instructions</li>
+                    </ul>
+                {% endif %}
+            </div>
         </div>
     </div>
-</body>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const aqi = {{ overall_aqi }};
+        let percentage;
+        
+        // Calculate position percentage based on AQI value
+        if (aqi <= 50) {
+            percentage = (aqi / 50) * 16.67;
+        } else if (aqi <= 100) {
+            percentage = ((aqi - 50) / 50) * 16.67 + 16.67;
+        } else if (aqi <= 150) {
+            percentage = ((aqi - 100) / 50) * 16.67 + 33.33;
+        } else if (aqi <= 200) {
+            percentage = ((aqi - 150) / 50) * 16.67 + 50;
+        } else if (aqi <= 300) {
+            percentage = ((aqi - 200) / 100) * 16.67 + 66.67;
+        } else {
+            percentage = Math.min(100, ((aqi - 300) / 100) * 16.67 + 83.33);
+        }
+        
+        const pointer = document.getElementById('aqiPointer');
+        pointer.style.left = `${percentage}%`;
+        pointer.style.transition = 'left 1s ease-in-out';
+    });
+</script>
 {% endblock %}
