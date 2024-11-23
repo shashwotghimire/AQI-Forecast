@@ -11,6 +11,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
+from .models import AQIPrediction
 
 def prepare_features(df):
     df['datetime'] = pd.to_datetime(df['datetime'])
@@ -136,16 +137,18 @@ def predict_aqi(request):
         prediction_datetime = form.cleaned_data['prediction_datetime']
         model_type = form.cleaned_data['model']
 
+        # Prepare the input data for prediction
         pred_df = pd.DataFrame({
             'datetime': [prediction_datetime]
         })
         pred_df = prepare_features(pred_df)
 
+        # Prediction logic (LSTM or other models)
         if model_type == 'lstm':
             result, features = train_model(model_type)
             model, (scaler_X, scaler_y), sequence_length = result
             
-            # Get the last sequence_length records from the database
+            # Get recent data from database for LSTM input
             recent_data = AQIData.objects.all().order_by('-datetime')[:sequence_length]
             recent_df = pd.DataFrame(list(recent_data.values()))
             recent_df = prepare_features(recent_df)
@@ -172,9 +175,22 @@ def predict_aqi(request):
             pm25_pred = pm25_model.predict(feature_data_scaled)[0]
             o3_pred = o3_model.predict(feature_data_scaled)[0]
 
+        # Calculate overall AQI
         overall_aqi = calculate_overall_aqi(pm25_pred, o3_pred)
         aqi_category, health_message, health_tip = get_aqi_category(overall_aqi)
 
+        # Save the Prediction to Database
+        new_prediction = AQIPrediction(
+            prediction_datetime=prediction_datetime,
+            pm25_prediction=pm25_pred,
+            o3_prediction=o3_pred,
+            overall_aqi=overall_aqi,
+            aqi_category=aqi_category,
+            model_type=model_type
+        )
+        new_prediction.save()
+
+        # Render the result page with the prediction
         return render(request, 'aqi_prediction/prediction_result.html', {
             'form': form,
             'prediction_datetime': prediction_datetime,

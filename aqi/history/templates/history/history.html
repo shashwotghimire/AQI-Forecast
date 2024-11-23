@@ -1,1 +1,53 @@
 {% extends "layout.html" %}
+{% load static tailwind_tags %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <h1 class="text-3xl font-semibold mb-6 text-center">AQI Prediction History</h1>
+    
+    {% if predictions %}
+        <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+            <table class="min-w-full">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="py-3 px-6 text-left text-sm font-medium text-gray-700">Date/Time</th>
+                        <th class="py-3 px-6 text-left text-sm font-medium text-gray-700">PM2.5 (μg/m³)</th>
+                        <th class="py-3 px-6 text-left text-sm font-medium text-gray-700">O3 (ppb)</th>
+                        <th class="py-3 px-6 text-left text-sm font-medium text-gray-700">Overall AQI</th>
+                        <th class="py-3 px-6 text-left text-sm font-medium text-gray-700">AQI Category</th>
+                        <th class="py-3 px-6 text-left text-sm font-medium text-gray-700">Model Type</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for prediction in predictions %}
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="py-4 px-6 text-sm text-gray-900">
+                                {{ prediction.prediction_datetime|date:"Y-m-d H:i" }}
+                            </td>
+                            <td class="py-4 px-6 text-sm text-gray-900">
+                                {{ prediction.pm25_prediction|floatformat:2 }}
+                            </td>
+                            <td class="py-4 px-6 text-sm text-gray-900">
+                                {{ prediction.o3_prediction|floatformat:2 }}
+                            </td>
+                            <td class="py-4 px-6 text-sm text-gray-900">
+                                {{ prediction.overall_aqi|floatformat:0 }}
+                            </td>
+                            <td class="py-4 px-6 text-sm text-gray-900">
+                                {{ prediction.aqi_category }}
+                            </td>
+                            <td class="py-4 px-6 text-sm text-gray-900">
+                                {{ prediction.model_type }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="text-center py-8">
+            <p class="text-gray-500 text-lg">No prediction history available.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

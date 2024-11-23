@@ -31,3 +31,6 @@ urlpatterns = [
     path('login/', include('login.urls')),
     path('aqi_prediction/', include('aqi_prediction.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
