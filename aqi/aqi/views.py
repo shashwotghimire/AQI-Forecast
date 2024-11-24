@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 #     # return HttpResponse('works')          for testing
 
 def about(request):
-    return render(request,'website/about.html')
+    return render(request,'website//about.html')
 
 # weather data fetch
 def get_weather_data():
@@ -32,7 +32,7 @@ def home(request):
     context = {
         'weather': weather_data,
     }
-    return render(request, 'website/index.html', context)
+    return render(request, 'website//index.html', context)
 
 # aqi data fetch
 
@@ -58,7 +58,7 @@ def home(request):
         'weather': weather_data,
         'aqi': aqi_data,
     }
-    return render(request, 'website/index.html', context)
+    return render(request, 'website//index.html', context)
 
 
 

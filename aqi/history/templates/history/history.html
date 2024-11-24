@@ -5,6 +5,11 @@
 <div class="container mx-auto px-4 py-6">
     <h1 class="text-3xl font-semibold mb-6 text-center">AQI Prediction History</h1>
     
+    <form method="get" action="">
+        <input type="date" name="date" value="{{ selected_date|default:'' }}">
+        <button type="submit">Filter</button>
+    </form>
+    
     {% if predictions %}
         <div class="overflow-x-auto bg-white rounded-lg shadow-md">
             <table class="min-w-full">

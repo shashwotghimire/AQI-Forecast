@@ -191,7 +191,7 @@ def predict_aqi(request):
         new_prediction.save()
 
         # Render the result page with the prediction
-        return render(request, 'aqi_prediction/prediction_result.html', {
+        return render(request, 'aqi_prediction//prediction_result.html', {
             'form': form,
             'prediction_datetime': prediction_datetime,
             'pm25_prediction': round(pm25_pred, 2),
@@ -203,4 +203,4 @@ def predict_aqi(request):
             'health_tip': health_tip
         })
 
-    return render(request, 'aqi_prediction/prediction_form.html', {'form': form})
+    return render(request, 'aqi_prediction//prediction_form.html', {'form': form})
