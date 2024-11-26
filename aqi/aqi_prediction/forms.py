@@ -2,10 +2,10 @@ from django import forms
 
 MODEL_CHOICES = [
     ('lstm', 'LSTM Neural Network'),
-    ('svm', 'Support Vector Machine (SVM)'),
+    # ('svm', 'Support Vector Machine (SVM)'),
     ('random_forest', 'Random Forest'),
-    ('knn', 'K-Nearest Neighbors (KNN)'),
-    ('decision_tree', 'Decision Tree'),
+    # ('knn', 'K-Nearest Neighbors (KNN)'),
+    # ('decision_tree', 'Decision Tree'),
 ]
 
 class PredictionForm(forms.Form):
