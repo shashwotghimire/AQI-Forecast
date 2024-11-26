@@ -93,18 +93,18 @@ def train_model(model_type):
         X = df[base_features]
         X_scaled = scaler_X.fit_transform(X)
         
-        if model_type == 'svm':
-            pm25_model = SVR(kernel='rbf', C=1.0, epsilon=0.1)
-            o3_model = SVR(kernel='rbf', C=1.0, epsilon=0.1)
-        elif model_type == 'random_forest':
+        # #if model_type == 'svm':
+        #     pm25_model = SVR(kernel='rbf', C=1.0, epsilon=0.1)
+        #     o3_model = SVR(kernel='rbf', C=1.0, epsilon=0.1)
+        if model_type == 'random_forest':
             pm25_model = RandomForestRegressor(n_estimators=100, max_depth=15)
             o3_model = RandomForestRegressor(n_estimators=100, max_depth=15)
-        elif model_type == 'knn':
-            pm25_model = KNeighborsRegressor(n_neighbors=5, weights='distance')
-            o3_model = KNeighborsRegressor(n_neighbors=5, weights='distance')
-        elif model_type == 'decision_tree':
-            pm25_model = DecisionTreeRegressor(max_depth=10, min_samples_split=5)
-            o3_model = DecisionTreeRegressor(max_depth=10, min_samples_split=5)
+        # elif model_type == 'knn':
+        #     pm25_model = KNeighborsRegressor(n_neighbors=5, weights='distance')
+        #     o3_model = KNeighborsRegressor(n_neighbors=5, weights='distance')
+        # elif model_type == 'decision_tree':
+        #     pm25_model = DecisionTreeRegressor(max_depth=10, min_samples_split=5)
+        #     o3_model = DecisionTreeRegressor(max_depth=10, min_samples_split=5)
             
         pm25_model.fit(X_scaled, df['pm25'])
         o3_model.fit(X_scaled, df['o3'])
@@ -203,4 +203,5 @@ def predict_aqi(request):
             'health_tip': health_tip
         })
 
+    # For GET requests or invalid form submissions
     return render(request, 'aqi_prediction/prediction_form.html', {'form': form})

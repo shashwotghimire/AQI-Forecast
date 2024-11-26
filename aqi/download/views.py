@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils.encoding import smart_str
 
 def download_page(request):
-     return render(request, 'download\\download.html')
+     return render(request, 'download//download.html')
 
 def download_csv(request):
     file_path = os.path.join(settings.MEDIA_ROOT, 'filtered_data.csv')

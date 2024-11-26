@@ -24,9 +24,9 @@ MODEL_FILE_PATH = r'C:\Users\Asus\OneDrive\Desktop\mlpython\ML_model'
 SECRET_KEY = 'django-insecure-r%8ww_gu6e^e4drr1)i$i1*)ncgp)y120d@_y@n)y47t0axd8%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True       #(deploy)
+DEBUG = False       #(deploy)
 
-ALLOWED_HOSTS = []  #(deploy)
+ALLOWED_HOSTS = ['*']  #(deploy)
 
 
 # Application definition
@@ -38,14 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'prediction',
+    'login',
     'tailwind',
     'theme',
     'download',
     'history',
-    'login',
     'aqi_prediction',
-    'widget_tweaks',
 
 ]
 TAILWIND_APP_NAME = 'theme' # This is the name of the app that will be used to generate the tailwind files
@@ -61,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'aqi.middleware.RedirectAnonymousUserMiddleware',
 ]
 
 ROOT_URLCONF = 'aqi.urls'
@@ -68,7 +67,7 @@ ROOT_URLCONF = 'aqi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,4 +142,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 WEATHER_API_KEY = '601b31f1c2541b300a00720f35e6ed58'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+
+PUBLIC_URLS = [
+    '/login/register/',
+    '/login/login/',
+    '/about/',
+    # Add other public URLs
+]
 

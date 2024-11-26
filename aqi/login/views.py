@@ -1,30 +1,33 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import CreateUserForm
+from django.contrib.auth import login, authenticate
+from django.views.decorators.csrf import csrf_protect
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
 # Registration View
+@csrf_protect
 def register(request):
-    form = CreateUserForm()
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)  # Log in the user after registration
-            return redirect('home')  # Redirect to the homepage or another page
-
-    context = {'form': form}
-    return render(request, 'login/register.html', context)
+            login(request, user)  # Automatically log in the user after registration
+            return redirect('home')  # make sure you have a 'home' URL pattern defined
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'login/register.html', {'form': form})
 
 # Login View
+@csrf_protect
 def user_login(request):
-    form = AuthenticationForm()
-    if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
+    if request.method == 'POST':
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            user = form.get_user()
-            auth_login(request, user)
-            return redirect('home')  # Redirect after login
-
-    context = {'form': form}
-    return render(request, 'login/login.html', context)
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')  # make sure you have a 'home' URL pattern defined
+    else:
+        form = CustomAuthenticationForm()
+    return render(request, 'login/login.html', {'form': form})

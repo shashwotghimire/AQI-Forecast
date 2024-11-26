@@ -46,6 +46,23 @@
         <h1 class="text-[#0e171b] text-2xl font-bold">Default Content</h1>
         {% endblock %}
     </main>
-
+    <footer class="bg-white shadow-lg mt-auto">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <h3 class="text-lg font-semibold text-[#0e171b]">AQI Forecast</h3>
+                    <p class="text-sm text-gray-600">Providing accurate air quality predictions</p>
+                </div>
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
+                    <a href="#" class="text-sm text-gray-600 hover:text-[#0e171b] transition duration-300">Privacy Policy</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-[#0e171b] transition duration-300">Terms of Service</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-[#0e171b] transition duration-300">Contact Us</a>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <p class="text-sm text-gray-600">&copy; {% now "Y" %} AQI Forecast. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
