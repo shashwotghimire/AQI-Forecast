@@ -38,14 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'prediction',
+    'login',
     'tailwind',
     'theme',
     'download',
     'history',
-    'login',
     'aqi_prediction',
-    'widget_tweaks',
 
 ]
 TAILWIND_APP_NAME = 'theme' # This is the name of the app that will be used to generate the tailwind files
@@ -69,7 +67,7 @@ ROOT_URLCONF = 'aqi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
