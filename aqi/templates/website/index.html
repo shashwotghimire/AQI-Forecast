@@ -11,85 +11,193 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
     <!-- Main content -->
-    <div class="container mx-auto my-8">
+    <div class="container mx-auto my-8 max-w-7xl px-4">
         <!-- Map Section -->
-        <div class="relative">
-            <div id="aqi-map" class="w-full h-96 rounded-lg shadow-md"></div>
+        <div class="relative mb-12">
+            <div class="absolute inset-0 bg-gradient-to-r from-teal-500/10 to-blue-500/10 rounded-lg"></div>
+            <div id="aqi-map" class="w-full h-[500px] rounded-lg shadow-xl border border-teal-200"></div>
         </div>
 
-<!-- Weather Section -->
-<h2 class="text-[#0e191b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Weather Forecast</h2>
-<div class="p-4">
-    {% if weather %}
-        <ul class="list-disc pl-5 space-y-4">
-            <li class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 1 0 10 10A10.012 10.012 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/>
-                    <path d="M12 6a6 6 0 0 0-6 6h2a4 4 0 1 1 4-4z"/>
-                </svg>
-                <span class="text-[#0e191b] font-bold">Temperature:</span>
-                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.main.temp }}°C</span>
-            </li>
-            <li class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 4a8 8 0 0 0 8 8 8.009 8.009 0 0 0-8-8zm1 13H11v-2h2zm0-4H11V7h2z"/>
-                </svg>
-                <span class="text-[#0e191b] font-bold">Weather:</span>
-                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.weather.0.description }}</span>
-            </li>
-            <li class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
-                </svg>
-                <span class="text-[#0e191b] font-bold">Humidity:</span>
-                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.main.humidity }}%</span>
-            </li>
-            <li class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
-                </svg>
-                <span class="text-[#0e191b] font-bold">Wind Speed:</span>
-                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.wind.speed }} m/s</span>
-            </li>
-        </ul>
-    {% else %}
-        <p class="text-[#4f8e96] text-sm font-normal leading-normal">Weather data not available.</p>
-    {% endif %}
-</div>
+        <!-- Weather and AQI Grid -->
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <!-- Weather Section -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-teal-100 transform transition-all hover:scale-[1.02]">
+                <div class="bg-gradient-to-r from-teal-500 to-blue-500 px-6 py-4">
+                    <h2 class="text-white text-2xl font-bold">Weather Forecast</h2>
+                </div>
+                <div class="p-6">
+                    {% if weather %}
+                        <ul class="space-y-6">
+                            <li class="flex items-center gap-4 p-4 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2a10 10 0 1 0 10 10A10.012 10.012 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/>
+                                    <path d="M12 6a6 6 0 0 0-6 6h2a4 4 0 1 1 4-4z"/>
+                                </svg>
+                                <span class="text-[#0e191b] font-bold">Temperature:</span>
+                                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.main.temp }}°C</span>
+                            </li>
+                            <li class="flex items-center gap-4 p-4 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 4a8 8 0 0 0 8 8 8.009 8.009 0 0 0-8-8zm1 13H11v-2h2zm0-4H11V7h2z"/>
+                                </svg>
+                                <span class="text-[#0e191b] font-bold">Weather:</span>
+                                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.weather.0.description }}</span>
+                            </li>
+                            <li class="flex items-center gap-4 p-4 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                                </svg>
+                                <span class="text-[#0e191b] font-bold">Humidity:</span>
+                                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.main.humidity }}%</span>
+                            </li>
+                            <li class="flex items-center gap-4 p-4 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                                </svg>
+                                <span class="text-[#0e191b] font-bold">Wind Speed:</span>
+                                <span class="text-[#4f8e96] font-extrabold text-xl">{{ weather.wind.speed }} m/s</span>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <div class="flex items-center justify-center h-48 bg-gray-50 rounded-lg">
+                            <p class="text-gray-500 text-lg">Weather data not available</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
 
-<!-- AQI Section -->
-<h2 class="text-[#0e191b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Real-time AQI</h2>
-<div class="p-4">
-    {% if aqi %}
-        <ul class="list-disc pl-5 space-y-4">
-            <li class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
-                </svg>
-                <span class="text-[#0e191b] font-bold">AQI:</span>
-                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.main.aqi }}</span>
-            </li>
-            <li class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
-                </svg>
-                <span class="text-[#0e191b] font-bold">PM2.5:</span>
-                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.components.pm2_5 }} µg/m³</span>
-            </li>
-            <li class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
-                </svg>
-                <span class="text-[#0e191b] font-bold">O₃:</span>
-                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.components.o3 }} µg/m³</span>
-            </li>
-        </ul>
-    {% else %}
-        <p class="text-[#4f8e96] text-sm font-normal leading-normal">AQI data not available.</p>
-    {% endif %}
-</div>
+            <!-- AQI Section - Mirror the weather section style -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-teal-100 transform transition-all hover:scale-[1.02]">
+                <div class="bg-gradient-to-r from-blue-500 to-teal-500 px-6 py-4">
+                    <h2 class="text-white text-2xl font-bold">Real-time AQI</h2>
+                </div>
+                <div class="p-6">
+                    {% if aqi %}
+                        <ul class="space-y-6">
+                            <li class="flex items-center gap-4 p-4 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                                </svg>
+                                <span class="text-[#0e191b] font-bold">AQI:</span>
+                                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.main.aqi }}</span>
+                            </li>
+                            <li class="flex items-center gap-4 p-4 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                                </svg>
+                                <span class="text-[#0e191b] font-bold">PM2.5:</span>
+                                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.components.pm2_5 }} µg/m³</span>
+                            </li>
+                            <li class="flex items-center gap-4 p-4 rounded-lg bg-teal-50 hover:bg-teal-100 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2a10 10 0 0 0-10 10h2a8 8 0 1 1 8 8 10 10 0 0 0 0-20zm0 16a6 6 0 1 0-6-6 6 6 0 0 0 6 6z"/>
+                                </svg>
+                                <span class="text-[#0e191b] font-bold">O₃:</span>
+                                <span class="text-[#4f8e96] font-extrabold text-xl">{{ aqi.list.0.components.o3 }} µg/m³</span>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <div class="flex items-center justify-center h-48 bg-gray-50 rounded-lg">
+                            <p class="text-gray-500 text-lg">AQI data not available</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
-   <div id="aqi-map"></div>
+        <!-- Health Tips Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-12 border border-teal-100">
+            <h2 class="text-2xl font-bold mb-8 text-gray-800 border-b pb-4">Health Tips</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group p-6 rounded-xl border border-teal-100 hover:border-teal-300 transition-all hover:shadow-lg bg-gradient-to-br from-white to-teal-50">
+                    <div class="text-teal-600 mb-4 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path
+                              d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-[#0e191b] text-base font-bold leading-tight">Wear masks</h2>
+                        <p class="text-[#4f8e96] text-sm font-normal leading-normal">N95 masks are recommended</p>
+                    </div>
+                </div>
+                <div class="group p-6 rounded-xl border border-teal-100 hover:border-teal-300 transition-all hover:shadow-lg bg-gradient-to-br from-white to-teal-50">
+                    <div class="text-teal-600 mb-4 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path
+                              d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-[#0e191b] text-base font-bold leading-tight">Avoid outdoor activities</h2>
+                        <p class="text-[#4f8e96] text-sm font-normal leading-normal">Especially for children and the elderly</p>
+                    </div>
+                </div>
+                <div class="group p-6 rounded-xl border border-teal-100 hover:border-teal-300 transition-all hover:shadow-lg bg-gradient-to-br from-white to-teal-50">
+                    <div class="text-teal-600 mb-4 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path
+                              d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-[#0e191b] text-base font-bold leading-tight">Close windows</h2>
+                        <p class="text-[#4f8e96] text-sm font-normal leading-normal">To prevent outdoor air from entering</p>
+                    </div>
+                </div>
+                <div class="group p-6 rounded-xl border border-teal-100 hover:border-teal-300 transition-all hover:shadow-lg bg-gradient-to-br from-white to-teal-50">
+                    <div class="text-teal-600 mb-4 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path
+                              d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-[#0e191b] text-base font-bold leading-tight">Use air purifier</h2>
+                        <p class="text-[#4f8e96] text-sm font-normal leading-normal">With HEPA filters</p>
+                    </div>
+                </div>
+                <div class="group p-6 rounded-xl border border-teal-100 hover:border-teal-300 transition-all hover:shadow-lg bg-gradient-to-br from-white to-teal-50">
+                    <div class="text-teal-600 mb-4 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path
+                              d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-[#0e191b] text-base font-bold leading-tight">Keep indoor plants</h2>
+                        <p class="text-[#4f8e96] text-sm font-normal leading-normal">Some plants can help improve indoor air quality</p>
+                    </div>
+                </div>
+                <div class="group p-6 rounded-xl border border-teal-100 hover:border-teal-300 transition-all hover:shadow-lg bg-gradient-to-br from-white to-teal-50">
+                    <div class="text-teal-600 mb-4 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path
+                              d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-[#0e191b] text-base font-bold leading-tight">Drink more water</h2>
+                        <p class="text-[#4f8e96] text-sm font-normal leading-normal">To help your body expel toxins</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="bg-gradient-to-br from-white to-teal-50 rounded-xl shadow-lg p-8 border border-teal-100">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">About This Site</h2>
+            <p class="text-gray-700 text-lg leading-relaxed">
+                This site provides a daily air quality forecast for Kathmandu, Nepal, as well as real-time data. Air quality data is collected from government monitoring stations and is subject to change. The forecast is based on historical data and meteorological conditions. For more information, please visit our about page.
+            </p>
+        </div>
+    </div>
 
     <script>
         var map = L.map('aqi-map').setView([28.3949, 84.1240], 5);  // Centered on Nepal
@@ -109,6 +217,41 @@
             // Add more location
         ];
 
+        // Add custom marker styling
+        var customIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: "<div class='marker-pin'></div>",
+            iconSize: [30, 42],
+            iconAnchor: [15, 42]
+        });
+        
+        // Add this style to your CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            .marker-pin {
+                width: 30px;
+                height: 30px;
+                border-radius: 50% 50% 50% 0;
+                background: #00796b;
+                position: absolute;
+                transform: rotate(-45deg);
+                left: 50%;
+                top: 50%;
+                margin: -15px 0 0 -15px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            }
+            .marker-pin::after {
+                content: '';
+                width: 24px;
+                height: 24px;
+                margin: 3px 0 0 3px;
+                background: #fff;
+                position: absolute;
+                border-radius: 50%;
+            }
+        `;
+        document.head.appendChild(style);
+        
         // Fetch AQI for each location
         locations.forEach(location => {
             fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${location.lat}&lon=${location.lon}&appid=601b31f1c2541b300a00720f35e6ed58`)
@@ -125,7 +268,7 @@
                         O₃: ${o3} µg/m³
                     `;
 
-                    L.marker([location.lat, location.lon]).addTo(map)
+                    L.marker([location.lat, location.lon], {icon: customIcon}).addTo(map)
                         .bindPopup(aqiPopup);
                 })
                 .catch(error => {
@@ -133,94 +276,5 @@
                 });
         });
     </script>
-    <h2 class="text-[#0e191b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Health Tips</h2>
-            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
-                <div class="text-[#0e191b]" data-icon="ShieldCheck" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
-                    ></path>
-                  </svg>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Wear masks</h2>
-                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">N95 masks are recommended</p>
-                </div>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
-                <div class="text-[#0e191b]" data-icon="ShieldStar" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
-                    ></path>
-                  </svg>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Avoid outdoor activities</h2>
-                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">Especially for children and the elderly</p>
-                </div>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
-                <div class="text-[#0e191b]" data-icon="ShieldCheck" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
-                    ></path>
-                  </svg>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Close windows</h2>
-                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">To prevent outdoor air from entering</p>
-                </div>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
-                <div class="text-[#0e191b]" data-icon="ShieldStar" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
-                    ></path>
-                  </svg>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Use air purifier</h2>
-                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">With HEPA filters</p>
-                </div>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
-                <div class="text-[#0e191b]" data-icon="ShieldCheck" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
-                    ></path>
-                  </svg>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Keep indoor plants</h2>
-                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">Some plants can help improve indoor air quality</p>
-                </div>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#d0e4e6] bg-[#f8fbfb] p-4 flex-col">
-                <div class="text-[#0e191b]" data-icon="ShieldStar" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M80.57,117A8,8,0,0,1,91,112.57l29,11.61V96a8,8,0,0,1,16,0v28.18l29-11.61A8,8,0,1,1,171,127.43l-30.31,12.12L158.4,163.2a8,8,0,1,1-12.8,9.6L128,149.33,110.4,172.8a8,8,0,1,1-12.8-9.6l17.74-23.65L85,127.43A8,8,0,0,1,80.57,117ZM224,56v58.77c0,89.62-75.82,119.34-91,124.39a15.44,15.44,0,0,1-10,0c-15.2-5-91-34.76-91-124.38V56A16,16,0,0,1,48,40H208A16,16,0,0,1,224,56Zm-16,0L48,56v58.79c0,78.5,66.47,104.68,80,109.18,13.66-4.56,80-30.76,80-109.18Z"
-                    ></path>
-                  </svg>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <h2 class="text-[#0e191b] text-base font-bold leading-tight">Drink more water</h2>
-                  <p class="text-[#4f8e96] text-sm font-normal leading-normal">To help your body expel toxins</p>
-                </div>
-              </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-lg p-6 mt-8">
-                <h2 class="text-gray-800 text-2xl font-bold leading-tight tracking-tight px-4 pb-3 pt-5">
-                    About This Site
-                </h2>
-                <p class="text-gray-600 text-lg font-normal leading-relaxed px-4 pb-3 pt-1">
-                    This site provides a daily air quality forecast for Kathmandu, Nepal, as well as real-time data. Air quality data is collected from government monitoring stations and is subject to change. The forecast is based on historical data and meteorological conditions. For more information, please visit our about page.
-                </p>
-            </div>
 </body>
 {% endblock %}
