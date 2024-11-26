@@ -10,7 +10,7 @@ def history_view(request):
     # Get base queryset ordered by datetime
     queryset = AQIPrediction.objects.all().order_by('-prediction_datetime')
     
-    # Filter by date if selected
+    # show selected date's predictions (2024-11-24 10:48 test date)
     if selected_date:
         try:
             date_obj = datetime.strptime(selected_date, '%Y-%m-%d').date()
