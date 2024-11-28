@@ -24,7 +24,7 @@ MODEL_FILE_PATH = r'C:\Users\Asus\OneDrive\Desktop\mlpython\ML_model'
 SECRET_KEY = 'django-insecure-r%8ww_gu6e^e4drr1)i$i1*)ncgp)y120d@_y@n)y47t0axd8%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False       #(deploy)
+DEBUG = True       #(deploy)
 
 ALLOWED_HOSTS = ['*']  #(deploy)
 
