@@ -12,8 +12,7 @@ AQI-Forecast is an open-source web application for forecasting the Air Quality I
 ## Prerequisites
 
 - Python 3.8+ installed.
-- Git installed.
-- Basic familiarity with Django and command-line tools.
+
 
 ## Installation & Setup
 
