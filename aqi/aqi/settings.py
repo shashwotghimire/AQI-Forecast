@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 ]
 TAILWIND_APP_NAME = 'theme' # This is the name of the app that will be used to generate the tailwind files
 INTERNAL_IPS = ['127.0.0.1']
-NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
+NPM_BIN_PATH = "/usr/bin/npm"
 
 
 MIDDLEWARE = [

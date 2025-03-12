@@ -1,29 +1,95 @@
 # AQI-Forecast
-## usage
 
-git clone 
+AQI-Forecast is an open-source web application for forecasting the Air Quality Index (AQI) in Kathmandu using Django and TensorFlow. It provides real-time AQI information with forecast upto 1 month ahead for users to monitor air quality.
 
-create python virtual environment
+## Project Architecture
 
-pip install django
+- Django for the backend.
+- Tailwind CSS for frontend styling.
+- TensorFlow for machine learning models.
+- Modular design for scalability.
 
-pip install -r requirements.txt
+## Prerequisites
 
-pip install tensorflow
+- Python 3.8+ installed.
+- Git installed.
+- Basic familiarity with Django and command-line tools.
 
-python manage.py tailwind init
+## Installation & Setup
 
-python manage.py makemigrations
+1. **Clone the repository:**
 
-python manage.py migrate
+   ```bash
+   git clone https://github.com/your-username/AQI-Forecast.git
+   cd AQI-Forecast
+   ```
 
-python manage.py load_aqi_data "path to csv file"
+2. **Create and activate a Python virtual environment:**
 
-python manage.py runserver
+   ```bash
+   python -m venv venv
+   source venv/bin/activate   # On Windows: venv\Scripts\activate
+   ```
 
-![Screenshot from 2024-11-19 16-23-35](https://github.com/user-attachments/assets/35ec744c-2889-46c5-b4e4-25b320f7148c)
+3. **Install dependencies:**
 
-add 2nd terminal adn activate virtual env and run python manage.py taiwlind start
+   ```bash
+   pip install django
+   pip install -r requirements.txt
+   pip install tensorflow
+   ```
 
+4. **Initialize Tailwind CSS:**
 
+   ```bash
+   python manage.py tailwind init
+   ```
 
+5. **Apply database migrations:**
+
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+6. **Load AQI data:**
+   Provide the path to your CSV file:
+   ```bash
+   python manage.py load_aqi_data "path/to/your/csvfile.csv"
+   ```
+
+## Usage
+
+1. **Start the Django development server:**
+
+   ```bash
+   python manage.py runserver
+   ```
+
+2. **Start Tailwind in a separate terminal:**
+   Make sure the virtual environment is activated.
+
+   ```bash
+   python manage.py tailwind start
+   ```
+
+3. **Access the application:**
+   Open your browser and go to [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+- Fork the repository.
+- Create a new branch for your feature or bugfix.
+- Submit a pull request with detailed descriptions.
+
+For any issues or feature requests, please open an issue on GitHub.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For support, please open an issue on the GitHub repository or contact the maintainers.
